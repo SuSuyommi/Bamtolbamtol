@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 오버레이</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 600px;
+            width: 100%;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+        }
+        .background-image {
+            width: 80%; /* 기본 이미지 크기를 키움 */
+            height: auto;
+            margin-top: 70px; /* 문구와의 간격을 위해 여백 추가 */
+        }
+        .overlay-image {
+            position: absolute;
+            top: 240px; /* 기본 이미지 크기에 맞게 조정 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 270px; /* 기본 이미지 크기에 맞게 조정 */
+            height: 250px; /* 기본 이미지 크기에 맞게 조정 */
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #ffffe0; /* 연노랑색 */
+        }
+        .text-overlay {
+            position: absolute;
+            top: 10px; /* 문구의 위치 조정 */
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 36px; /* 문구의 크기를 키움 */
+            color: #ff69b4;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        .buttons {
+            padding: 20px;
+        }
+        .buttons input[type="file"] {
+            display: none;
+        }
+        .buttons label, .buttons button {
+            background-color: #ff69b4;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-family: 'Nanum Pen Script', cursive; /* 여성들이 좋아할만한 글씨체 */
+            font-size: 18px;
+        }
+        .buttons button {
+            border: none;
+        }
+        .buttons label:hover, .buttons button:hover {
+            background-color: #ff85c1;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="container">
+            <div class="text-overlay">나는야 밤톨이!</div>
+            <img id="backgroundImage" src="bamtol.png" alt="배경 이미지" class="background-image">
+            <img id="overlayImage" src="" alt="오버레이 이미지" class="overlay-image">
+        </div>
+        <div class="buttons">
+            <input type="file" id="imageInput" accept="image/*">
+            <label for="imageInput">이미지 선택</label>
+            <button onclick="saveImage()">이미지 저장</button>
+        </div>
+    </div>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('overlayImage').src = e.target.result;
+                    document.getElementById('overlayImage').style.backgroundColor = 'transparent'; // 이미지 선택 후 배경색 제거
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function saveImage() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const backgroundImage = document.getElementById('backgroundImage');
+            const overlayImage = document.getElementById('overlayImage');
+            const textOverlay = document.querySelector('.text-overlay');
+
+            // 캔버스 크기를 이미지 크기에 맞춤
+            canvas.width = backgroundImage.naturalWidth;
+            canvas.height = backgroundImage.naturalHeight;
+
+            // 배경 이미지 그리기
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+
+            // 오버레이 이미지 그리기
+            const overlayX = (canvas.width * 0.5) - (overlayImage.width * 0.5);
+            const overlayY = 240; // 오버레이 이미지의 Y 좌표
+            ctx.drawImage(overlayImage, overlayX, overlayY, overlayImage.width, overlayImage.height);
+
+            // 텍스트 오버레이 그리기
+            ctx.font = '36px Nanum Pen Script';
+            ctx.fillStyle = '#ff69b4';
+            ctx.textAlign = 'center';
+            ctx.fillText(textOverlay.textContent, canvas.width / 2, 50); // 텍스트의 Y 좌표
+
+            // 이미지 저장
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'overlay-image.png';
+            link.click();
+        }
+    </script>
+</body>
+</html>
