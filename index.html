@@ -89,7 +89,8 @@
                 margin-top: 50px; /* 모바일에서 문구와의 간격 조정 */
             }
             .overlay-image {
-                top: 150px; /* 모바일에서 오버레이 이미지 위치 조정 */
+                top: 160px; /* 모바일에서 오버레이 이미지 위치 조정 */
+                left: 210px; /* 모바일에서 오버레이 이미지 위치 조정 */
                 width: 200px; /* 모바일에서 오버레이 이미지 크기 조정 */
                 height: 200px; /* 모바일에서 오버레이 이미지 크기 조정 */
             }
@@ -133,9 +134,12 @@
 
         function saveImage() {
             const captureArea = document.getElementById('captureArea');
+            const buttons = document.querySelector('.buttons');
+            buttons.style.display = 'none'; // 버튼 숨기기
             html2canvas(captureArea, {
                 backgroundColor: '#ffffff' // 배경을 흰색으로 설정
             }).then(function(canvas) {
+                buttons.style.display = 'block'; // 버튼 다시 보이기
                 const link = document.createElement('a');
                 link.href = canvas.toDataURL('image/png');
                 link.download = 'overlay-image.png';
