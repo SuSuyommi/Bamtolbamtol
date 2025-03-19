@@ -122,6 +122,10 @@
             canvas.width = backgroundImage.naturalWidth;
             canvas.height = backgroundImage.naturalHeight;
 
+            // 배경을 흰색으로 설정
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
             // 배경 이미지 그리기
             ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
