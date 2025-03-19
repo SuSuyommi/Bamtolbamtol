@@ -60,6 +60,7 @@
         }
         .buttons {
             padding: 20px;
+            text-align: center;
         }
         .buttons input[type="file"] {
             display: none;
@@ -113,13 +114,12 @@
         function saveImage() {
             const captureArea = document.getElementById('captureArea');
             html2canvas(captureArea, {
-                onrendered: function(canvas) {
-                    const link = document.createElement('a');
-                    link.href = canvas.toDataURL('image/png');
-                    link.download = 'overlay-image.png';
-                    link.click();
-                },
-                background: '#ffffff' // 배경을 흰색으로 설정
+                backgroundColor: '#ffffff' // 배경을 흰색으로 설정
+            }).then(function(canvas) {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'overlay-image.png';
+                link.click();
             });
         }
     </script>
