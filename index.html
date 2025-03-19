@@ -81,6 +81,26 @@
         .buttons label:hover, .buttons button:hover {
             background-color: #ff85c1;
         }
+
+        /* 반응형 디자인 */
+        @media (max-width: 600px) {
+            .background-image {
+                width: 100%; /* 모바일에서 이미지 크기를 조정 */
+                margin-top: 50px; /* 모바일에서 문구와의 간격 조정 */
+            }
+            .overlay-image {
+                top: 200px; /* 모바일에서 오버레이 이미지 위치 조정 */
+                width: 200px; /* 모바일에서 오버레이 이미지 크기 조정 */
+                height: 200px; /* 모바일에서 오버레이 이미지 크기 조정 */
+            }
+            .text-overlay {
+                font-size: 24px; /* 모바일에서 문구 크기 조정 */
+            }
+            .buttons label, .buttons button {
+                font-size: 16px; /* 모바일에서 버튼 글씨 크기 조정 */
+                padding: 8px 16px; /* 모바일에서 버튼 패딩 조정 */
+            }
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -119,7 +139,9 @@
                 const link = document.createElement('a');
                 link.href = canvas.toDataURL('image/png');
                 link.download = 'overlay-image.png';
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
             });
         }
     </script>
