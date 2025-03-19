@@ -29,6 +29,9 @@
         .container {
             position: relative;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .background-image {
             width: 80%; /* 기본 이미지 크기를 키움 */
@@ -37,11 +40,13 @@
         }
         .overlay-image {
             position: absolute;
-            top: 240px; /* 기본 이미지 크기에 맞게 조정 */
+            /* 픽셀 값 대신 퍼센트 사용 */
+            top: 67%; 
             left: 50%;
-            transform: translateX(-50%);
-            width: 270px; /* 기본 이미지 크기에 맞게 조정 */
-            height: 250px; /* 기본 이미지 크기에 맞게 조정 */
+            transform: translate(-50%, -50%);
+            width: 45%; /* 백그라운드 이미지의 상대적 크기로 조정 */
+            height: auto;
+            aspect-ratio: 1 / 1; /* 원형 비율 유지 */
             border-radius: 50%;
             object-fit: cover;
             background-color: #ffffe0; /* 연노랑색 */
@@ -89,10 +94,7 @@
                 margin-top: 50px; /* 모바일에서 문구와의 간격 조정 */
             }
             .overlay-image {
-                top: 160px; /* 모바일에서 오버레이 이미지 위치 조정 */
-                left: 178px; /* 아이폰에서 오버레이 이미지 위치 조정 */
-                width: 200px; /* 모바일에서 오버레이 이미지 크기 조정 */
-                height: 200px; /* 모바일에서 오버레이 이미지 크기 조정 */
+                width: 55%; /* 모바일에서는 더 큰 비율로 */
             }
             .text-overlay {
                 font-size: 24px; /* 모바일에서 문구 크기 조정 */
@@ -108,14 +110,6 @@
             .overlay-image {
                 top: 160px; /* 갤럭시에서 오버레이 이미지 위치 조정 */
                 left: 190px; /* 갤럭시에서 오버레이 이미지 위치 조정 */
-            }
-        }
-
-        /* 추가적인 안드로이드 기기별 조정 */
-        @media (max-width: 600px) and (min-device-pixel-ratio: 3) and (orientation: portrait) and (min-device-width: 360px) {
-            .overlay-image {
-                top: 160px; /* 안드로이드에서 오버레이 이미지 위치 조정 */
-                left: 200px; /* 안드로이드에서 오버레이 이미지 위치 조정 */
             }
         }
     </style>
